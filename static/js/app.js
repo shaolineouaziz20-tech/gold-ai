@@ -1,87 +1,61 @@
-// ===============================
-// تحديث سعر الذهب اللحظي
-// ===============================
-async function updateGoldPrice() {
-    try {
-        const response = await fetch("/api/gold-price");
-        const data = await response.json();
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const chartInput = document.getElementById('chartInput');
+    const preview = document.getElementById('preview');
+    const analyseBtn = document.getElementById('analyseBtn');
+    const form = document.getElementById('analyseForm');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
 
-        const priceElement = document.getElementById("gold-price");
+    if (dropZone) {
+        dropZone.addEventListener('click', () => chartInput.click());
 
-        if (priceElement) {
-            let price = data.gold_price || data.price;
-
-            if (price && price !== "N/A" && price !== "undefined") {
-                priceElement.innerText = "$" + price;
-            } else if (priceElement.innerText === "---") {
-                priceElement.innerText = "جاري جلب السعر...";
+        chartInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    analyseBtn.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
             }
-        }
-
-    } catch (error) {
-        console.log("Error updating gold price:", error);
+        });
     }
-}
 
-// تحديث السعر كل 3 ثواني
-setInterval(updateGoldPrice, 3000);
-updateGoldPrice();
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            
+            analyseBtn.style.display = 'none';
+            loading.style.display = 'block';
+            result.style.display = 'none';
 
-
-// ===============================
-// تحليل الأخبار يدوياً
-// ===============================
-const analyzeBtn = document.getElementById("analyzeNewsBtn");
-
-if (analyzeBtn) {
-
-    analyzeBtn.addEventListener("click", async () => {
-
-        const text = document.getElementById("newsInput").value;
-
-        if (!text.trim()) {
-            alert("الرجاء إدخال نص الأخبار أولاً!");
-            return;
-        }
-
-        document.getElementById("parsedNews").innerHTML = "<p>⌛ جاري تحليل الأخبار...</p>";
-
-        try {
-            const response = await fetch("/api/parse-news", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ text: text })
-            });
-
-            const news = await response.json();
-
-            let html = "";
-
-            if (!news || news.length === 0) {
-                html = "<p>❌ لم يتم العثور على أخبار مهمة.</p>";
-            } else {
-                news.forEach(item => {
-                    html += `
-                    <div class="card" style="margin-top:15px; border-right: 4px solid #ffd700;">
-                        <h3>${item.title || 'خبر اقتصادي'}</h3>
-                        <p><strong>💵 العملة:</strong> ${item.currency || 'USD'}</p>
-                        <p><strong>📊 التأثير:</strong> ${item.effect || 'غير محدد'}</p>
-                        <p><strong>📖 السبب:</strong> ${item.reason || 'تحليل ذكاء اصطناعي'}</p>
-                        <small>🕒 ${item.time || 'الآن'}</small>
-                    </div>
-                    `;
+            try {
+                const response = await fetch('/ai-analyse', {
+                    method: 'POST',
+                    body: formData
                 });
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                analyseBtn.style.display = 'block';
+                
+                if (data.analysis) {
+                    result.innerText = data.analysis;
+                    result.style.display = 'block';
+                } else {
+                    result.innerText = "خطأ: " + (data.error || "وقع مشكل ف السيرفر");
+                    result.style.display = 'block';
+                }
+            } catch (err) {
+                loading.style.display = 'none';
+                analyseBtn.style.display = 'block';
+                result.innerText = "مشكل ف الاتصال بالسيرفر المحلي";
+                result.style.display = 'block';
             }
-
-            document.getElementById("parsedNews").innerHTML = html;
-
-        } catch (err) {
-            console.error("Error analyzing news:", err);
-            document.getElementById("parsedNews").innerHTML = "<p>❌ حدث خطأ أثناء التحليل.</p>";
-        }
-
-    });
-
-}
+        });
+    }
+});
