@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold AI - AI Chart Analyst</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fa-solid fa-brain"></i> Gold AI - Chart Analyst</h1>
+        <p style="text-align: center; color: #94a3b8; margin-bottom: 30px;">لوّح السكرين شوت ديال الشارت هنا والـ AI غايجبد ليك أقوى الـ OBs و الـ FVGs بـ SMC</p>
+        
+        <form id="analyseForm">
+            <div class="upload-zone" id="dropZone">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 54px; color: var(--accent-color); margin-bottom: 15px;"></i>
+                <p>اضغط هنا أو قم بسحب صورة الشارت (Screenshot)</p>
+                <input type="file" id="chartInput" name="chart_img" accept="image/*" style="display: none;">
+                <img id="preview" alt="Chart Preview">
+            </div>
+            <button type="submit" id="analyseBtn">بدأ التحليل الذكي للذهب <i class="fa-solid fa-wand-magic-sparkles"></i></button>
+        </form>
+
+        <div class="loading" id="loading">
+            <i class="fa-solid fa-spinner fa-spin" style="color: var(--accent-color); font-size: 40px; margin-bottom: 10px;"></i>
+            <p>الـ AI كيقرا السيولة ويحدد الـ Bias دابا... تسنى ثواني</p>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

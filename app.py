@@ -4,9 +4,12 @@ from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
 from PIL import Image
 
-# imports ديال السيستيم القديم ديالك باش يطيروا الأخطاء ف المجلدات الأخرى
+# ربط كاع الملفات والخدمات القديمة باش يطيروا الأخطاء
 from services.ai_engine import * 
 from services.news_fetcher import *
+from services.news_provider import *
+from services.news import *
+from services.translator import *
 
 app = Flask(__name__)
 
@@ -24,7 +27,6 @@ genai.configure(api_key=GEMINI_API_KEY)
 # صفحة الـ Dashboard الرئيسية (ديال الـ Live Price والأخبار)
 @app.route('/')
 def index():
-    # كيرجع يخدم السيستيم القديم ديالك أوتوماتيكياً بلا ما يفركع الـ index.html
     return render_template('index.html')
 
 
