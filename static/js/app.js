@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (err) {
                 loading.style.display = 'none';
                 analyseBtn.style.display = 'block';
-                result.innerText = "مشكل ف الاتصال بالسيرفر المحلي";
+                result.innerText = "مشكل ف الاتصال بالسيرفر";
                 result.style.display = 'block';
             }
         });

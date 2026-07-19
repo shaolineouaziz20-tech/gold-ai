@@ -1,35 +1,293 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gold AI - AI Chart Analyst</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Gold AI - Dashboard</title>
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --accent-gold: #e2b047;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --btn-green: #10b981;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* الـ Navbar الفوقاني الجديد والمطور */
+        .top-navbar {
+            background: var(--card-bg);
+            padding: 15px 25px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-link {
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link.active {
+            background: var(--border-color);
+        }
+
+        .nav-link.btn-gold {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        .nav-link.btn-gold:hover {
+            background: #cca03a;
+            transform: translateY(-2px);
+        }
+
+        /* كود مربعات العرض (Grid Layout) */
+        .grid-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .card-title {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-neutral {
+            background: #475569;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .large-price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--text-main);
+            margin: 15px 0 0 0;
+            text-align: left;
+        }
+
+        .status-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 10px;
+        }
+
+        .full-width-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .dol-title {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
+
+        /* أدوات التحكم بالأخبار */
+        .news-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .btn-fetch {
+            background-color: var(--btn-green);
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-fetch:hover {
+            background-color: #059669;
+        }
+
+        .textarea-news {
+            width: 100%;
+            height: 100px;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            padding: 15px;
+            box-sizing: border-box;
+            resize: vertical;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-analyse {
+            background-color: var(--accent-gold);
+            color: #000;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-analyse:hover {
+            background-color: #cca03a;
+        }
+
+        @media (max-width: 768px) {
+            .grid-top {
+                grid-template-columns: 1fr;
+            }
+            .top-navbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1><i class="fa-solid fa-brain"></i> Gold AI - Chart Analyst</h1>
-        <p style="text-align: center; color: #94a3b8; margin-bottom: 30px;">لوّح السكرين شوت ديال الشارت هنا والـ AI غايجبد ليك أقوى الـ OBs و الـ FVGs بـ SMC</p>
-        
-        <form id="analyseForm">
-            <div class="upload-zone" id="dropZone">
-                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 54px; color: var(--accent-color); margin-bottom: 15px;"></i>
-                <p>اضغط هنا أو قم بسحب صورة الشارت (Screenshot)</p>
-                <input type="file" id="chartInput" name="chart_img" accept="image/*" style="display: none;">
-                <img id="preview" alt="Chart Preview">
-            </div>
-            <button type="submit" id="analyseBtn">بدأ التحليل الذكي للذهب <i class="fa-solid fa-wand-magic-sparkles"></i></button>
-        </form>
 
-        <div class="loading" id="loading">
-            <i class="fa-solid fa-spinner fa-spin" style="color: var(--accent-color); font-size: 40px; margin-bottom: 10px;"></i>
-            <p>الـ AI كيقرا السيولة ويحدد الـ Bias دابا... تسنى ثواني</p>
+    <div class="container">
+        
+        <!-- 1. الـ Navbar الفوقاني المتناسق -->
+        <nav class="top-navbar">
+            <a href="/" class="navbar-brand">
+                <i class="fa-solid fa-coins"></i> Gold AI
+            </a>
+            <div class="navbar-links">
+                <a href="/" class="nav-link active"><i class="fa-solid fa-chart-pie"></i> لوحة التحكم</a>
+                <a href="/ai-analyse" class="nav-link btn-gold"><i class="fa-solid fa-brain"></i> تحليل الشارت بالـ AI 🚀</a>
+            </div>
+        </nav>
+
+        <!-- 2. المربعات العلوية (Session Bias & Live Price) -->
+        <div class="grid-top">
+            
+            <!-- مربع الجلسات والـ Bias -->
+            <div class="card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-calendar-days"></i> تحيز الجلسة القادمة (Session Bias)
+                    <span class="badge-neutral">NEUTRAL</span>
+                </h2>
+                <div class="status-text">نسبة الثقة: 0%</div>
+                <div class="status-text" style="margin-top: 15px;">في انتظار تحليل البيانات...</div>
+            </div>
+
+            <!-- مربع سعر الذهب المباشر XAUUSD -->
+            <div class="card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-money-bill-trend-up"></i> سعر الذهب المباشر (XAUUSD) 💰
+                </h2>
+                <div class="large-price" id="live-gold-price">$4019.30</div>
+            </div>
+
         </div>
 
-        <div id="result"></div>
+        <!-- 3. مربع هدف السيولة المتوقع DOL -->
+        <div class="full-width-card">
+            <h2 class="dol-title"><i class="fa-solid fa-bullseye"></i> هدف السيولة المتوقع (Draw on Liquidity - DOL) 🎯</h2>
+            <div class="status-text" style="font-size: 1.1rem;">في انتظار التحليل...</div>
+        </div>
+
+        <!-- 4. قسم إدخال وجلب الأخبار الاقتصادية -->
+        <div class="news-section">
+            <h2 class="card-title" style="color: var(--text-main); margin-bottom: 20px;">
+                <i class="fa-solid fa-newspaper"></i> إدخال الأخبار الاقتصادية / التحديث التلقائي
+            </h2>
+            
+            <!-- زر الجلب التلقائي -->
+            <button class="btn-fetch" id="autoFetchBtn">
+                <i class="fa-solid fa-bolt"></i> جلب وتحليل أخبار اليوم والجلسة تلقائياً (Auto-Fetch)
+            </button>
+
+            <!-- حقل النص اليدوي للتجارب -->
+            <textarea class="textarea-news" id="manualNewsInput" placeholder="أدخل الأخبار يدويًا هنا في حال أردت تجربة نص معين..."></textarea>
+
+            <!-- زر تحليل الأخبار المدخلة -->
+            <button class="btn-analyse" id="analyseNewsBtn">تحليل الأخبار المدخلة الآن</button>
+        </div>
+
     </div>
 
+    <!-- ربط بملف الـ JavaScript الخارجي -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

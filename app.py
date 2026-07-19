@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
 from PIL import Image
 
-# ربط كاع الملفات والخدمات القديمة باش يطيروا الأخطاء
+# ربط كاع الملفات والخدمات القديمة
 from services.ai_engine import * 
 from services.news_fetcher import *
 from services.news_provider import *
@@ -45,11 +45,9 @@ def ai_analyse():
             return jsonify({'error': 'No file selected'}), 400
 
         try:
-            # قراءة التصويرة وتحويلها لـ PIL Image باش يفهمها Gemini
             image_bytes = file.read()
             image = Image.open(io.BytesIO(image_bytes))
             
-            # الـ Prompt الموجه والمثالي للـ SMC والذهب
             prompt = """
             You are an expert Smart Money Concepts (SMC) and ICT trader specializing in XAUUSD (Gold).
             Analyze this chart screenshot and provide a highly professional, detailed technical breakdown in Darija (Moroccan Arabic mixed with trading terms like OB, FVG, Liquidity, Bias, Premium/Discount, Killzones).
@@ -63,7 +61,6 @@ def ai_analyse():
             Keep the response structured, sharp, and easy to read using bullet points. Write in Moroccan Darija Arabic script.
             """
             
-            # استدعاء الموديل Gemini 1.5 Flash السريع والقوي ف الرؤية
             model = genai.GenerativeModel('gemini-1.5-flash')
             response = model.generate_content([prompt, image])
             
@@ -73,8 +70,5 @@ def ai_analyse():
             return jsonify({'error': str(e)}), 500
 
 
-# ==========================================
-# 3. تشغيل السيرفر المحلي (Local)
-# ==========================================
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
