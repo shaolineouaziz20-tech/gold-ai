@@ -3,291 +3,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gold AI - Dashboard</title>
-    <!-- Font Awesome للأيقونات -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>🥇 Gold AI - لوحة تحكم الذهب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --accent-gold: #e2b047;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --btn-green: #10b981;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* ====== RESET ====== */
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #0a0e17;
+            color: #e0e0e0;
+            min-height: 100vh;
         }
-
-        /* الـ Navbar الفوقاني الجديد والمطور */
-        .top-navbar {
-            background: var(--card-bg);
-            padding: 15px 25px;
-            border-bottom: 2px solid var(--border-color);
+        
+        /* ====== LAYOUT ====== */
+        .app-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 12px;
-            margin-bottom: 25px;
+            min-height: 100vh;
         }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent-gold);
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
+        
+        /* ====== SIDEBAR ====== */
+        .sidebar {
+            width: 260px;
+            background: #111927;
+            border-right: 1px solid #1a2332;
+            padding: 25px 15px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
         }
-
-        .navbar-links {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        
+        .sidebar-logo {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #1a2332;
+            margin-bottom: 20px;
         }
-
+        
+        .sidebar-logo .logo-icon {
+            font-size: 45px;
+            display: block;
+            animation: goldShine 2s infinite;
+        }
+        
+        @keyframes goldShine {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .sidebar-logo h2 {
+            font-size: 22px;
+            margin-top: 8px;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            background-clip: text;  /* ✅ إضافة الخاصية القياسية */
+            -webkit-text-fill-color: transparent;
+            color: transparent;     /* ✅ إضافة اللون الشفاف */
+        }
+        
+        .sidebar-logo .version {
+            font-size: 11px;
+            color: #555;
+        }
+        
+        /* ====== NAVIGATION ====== */
+        .nav-section {
+            margin-bottom: 20px;
+        }
+        
+        .nav-section-title {
+            font-size: 11px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 12px;
+        }
+        
         .nav-link {
-            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #888;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.95rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+            margin-bottom: 4px;
+        }
+        
+        .nav-link:hover {
+            background: #1a2332;
+            color: #fff;
+        }
+        
+        .nav-link.active {
+            background: #1a2332;
+            color: #ffd200;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+        }
+        
+        /* ====== AI NAV LINK (الزر الجديد) ====== */
+        .ai-nav-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin: 8px 0;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            text-decoration: none;
         }
-
-        .nav-link.active {
-            background: var(--border-color);
+        
+        .ai-nav-link:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white !important;
         }
-
-        .nav-link.btn-gold {
-            background: var(--accent-gold);
-            color: #000;
+        
+        .ai-nav-link .nav-badge {
+            background: #ff6b6b;
+            color: white;
+            font-size: 10px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-right: auto;
+            animation: pulseBadge 2s infinite;
         }
-
-        .nav-link.btn-gold:hover {
-            background: #cca03a;
-            transform: translateY(-2px);
+        
+        @keyframes pulseBadge {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.95); }
         }
-
-        /* كود مربعات العرض (Grid Layout) */
-        .grid-top {
+        
+        /* ====== MAIN CONTENT ====== */
+        .main-content {
+            margin-right: 260px;
+            padding: 30px;
+            width: 100%;
+        }
+        
+        /* ====== HEADER ====== */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #1a2332;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .main-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            background-clip: text;  /* ✅ إضافة الخاصية القياسية */
+            -webkit-text-fill-color: transparent;
+            color: transparent;     /* ✅ إضافة اللون الشفاف */
+        }
+        
+        .header-time {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        /* ====== CARDS ====== */
+        .cards-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
-
+        
         .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-            position: relative;
+            background: #111927;
+            border: 1px solid #1a2332;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s;
         }
-
-        .card-title {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-top: 0;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: #2a3a52;
         }
-
-        .badge-neutral {
-            background: #475569;
+        
+        .card-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 8px;
             color: #fff;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-right: 10px;
         }
-
-        .large-price {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--text-main);
-            margin: 15px 0 0 0;
-            text-align: left;
+        
+        .card-value.green {
+            color: #00e676;
         }
-
-        .status-text {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 10px;
+        
+        .card-value.red {
+            color: #ff5252;
         }
-
-        .full-width-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
+        
+        .card-value.gold {
+            color: #ffd200;
         }
-
-        .dol-title {
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 0 0 10px 0;
-        }
-
-        /* أدوات التحكم بالأخبار */
+        
+        /* ====== NEWS ====== */
         .news-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
+            background: #111927;
+            border: 1px solid #1a2332;
+            border-radius: 16px;
+            padding: 20px;
         }
-
-        .btn-fetch {
-            background-color: var(--btn-green);
+        
+        .news-section h3 {
             color: #fff;
-            border: none;
-            width: 100%;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: background 0.2s;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .news-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #1a2332;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 15px;
+            align-items: flex-start;
         }
-
-        .btn-fetch:hover {
-            background-color: #059669;
+        
+        .news-item:last-child {
+            border-bottom: none;
         }
-
-        .textarea-news {
-            width: 100%;
-            height: 100px;
-            background-color: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-main);
-            padding: 15px;
-            box-sizing: border-box;
-            resize: vertical;
-            font-size: 1rem;
-            margin-bottom: 20px;
+        
+        .news-impact {
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
         }
-
-        .btn-analyse {
-            background-color: var(--accent-gold);
-            color: #000;
-            border: none;
-            width: 100%;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
+        
+        .news-impact.high {
+            background: #ff5252;
+            color: white;
         }
-
-        .btn-analyse:hover {
-            background-color: #cca03a;
+        
+        .news-impact.medium {
+            background: #ffd200;
+            color: #0a0e17;
         }
-
+        
+        .news-impact.low {
+            background: #555;
+            color: white;
+        }
+        
+        .news-content {
+            flex: 1;
+        }
+        
+        .news-title {
+            color: #e0e0e0;
+            font-size: 14px;
+        }
+        
+        .news-time {
+            color: #888;
+            font-size: 12px;
+        }
+        
+        /* ====== RESPONSIVE ====== */
         @media (max-width: 768px) {
-            .grid-top {
+            .sidebar {
+                width: 70px;
+                padding: 15px 8px;
+            }
+            
+            .sidebar-logo h2,
+            .sidebar-logo .version,
+            .nav-section-title,
+            .nav-link span:not(.nav-icon) {
+                display: none;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 12px;
+            }
+            
+            .ai-nav-link {
+                justify-content: center;
+                padding: 12px;
+            }
+            
+            .ai-nav-link .nav-badge {
+                display: none;
+            }
+            
+            .main-content {
+                margin-right: 70px;
+                padding: 15px;
+            }
+            
+            .main-header h1 {
+                font-size: 20px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .card-value {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cards-grid {
                 grid-template-columns: 1fr;
             }
-            .top-navbar {
+            
+            .main-header {
                 flex-direction: column;
-                gap: 15px;
                 text-align: center;
             }
         }
     </style>
 </head>
 <body>
-
-    <div class="container">
+    <div class="app-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="logo-icon">🥇</span>
+                <h2>Gold AI</h2>
+                <span class="version">v2.0.0</span>
+            </div>
+            
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-section-title">الرئيسية</div>
+                    <a href="/" class="nav-link active">
+                        <span class="nav-icon">🏠</span>
+                        <span>لوحة التحكم</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">التحليل</div>
+                    <a href="{{ url_for('ai_analyze_page') }}" class="ai-nav-link">
+                        <span class="nav-icon">🤖</span>
+                        <span>AI Chart Analyzer</span>
+                        <span class="nav-badge">جديد</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">الإشارات</div>
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>إشارات التداول</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        <span>سجل الإشارات</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">الإعدادات</div>
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        <span>الإعدادات</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📞</span>
+                        <span>الدعم</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
         
-        <!-- 1. الـ Navbar الفوقاني المتناسق -->
-        <nav class="top-navbar">
-            <a href="/" class="navbar-brand">
-                <i class="fa-solid fa-coins"></i> Gold AI
-            </a>
-            <div class="navbar-links">
-                <a href="/" class="nav-link active"><i class="fa-solid fa-chart-pie"></i> لوحة التحكم</a>
-                <a href="/ai-analyse" class="nav-link btn-gold"><i class="fa-solid fa-brain"></i> تحليل الشارت بالـ AI 🚀</a>
-            </div>
-        </nav>
-
-        <!-- 2. المربعات العلوية (Session Bias & Live Price) -->
-        <div class="grid-top">
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <h1>🏦 لوحة تحكم الذهب</h1>
+                <span class="header-time">{{ now.strftime('%Y-%m-%d %H:%M') }}</span>
+            </header>
             
-            <!-- مربع الجلسات والـ Bias -->
-            <div class="card">
-                <h2 class="card-title">
-                    <i class="fa-solid fa-calendar-days"></i> تحيز الجلسة القادمة (Session Bias)
-                    <span class="badge-neutral">NEUTRAL</span>
-                </h2>
-                <div class="status-text">نسبة الثقة: 0%</div>
-                <div class="status-text" style="margin-top: 15px;">في انتظار تحليل البيانات...</div>
+            <!-- Cards -->
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-label">💰 سعر الذهب الفوري</div>
+                    <div class="card-value gold">${{ current_price }}</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-label">📈 التغيير</div>
+                    <div class="card-value {% if price_change|float > 0 %}green{% else %}red{% endif %}">
+                        {{ price_change }}%
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-label">🕐 آخر تحديث</div>
+                    <div class="card-value" style="font-size: 16px;">{{ now.strftime('%H:%M:%S') }}</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-label">📊 الحالة</div>
+                    <div class="card-value" style="font-size: 16px; color: #00e676;">
+                        🟢 نشط
+                    </div>
+                </div>
             </div>
-
-            <!-- مربع سعر الذهب المباشر XAUUSD -->
-            <div class="card">
-                <h2 class="card-title">
-                    <i class="fa-solid fa-money-bill-trend-up"></i> سعر الذهب المباشر (XAUUSD) 💰
-                </h2>
-                <div class="large-price" id="live-gold-price">$4019.30</div>
-            </div>
-
-        </div>
-
-        <!-- 3. مربع هدف السيولة المتوقع DOL -->
-        <div class="full-width-card">
-            <h2 class="dol-title"><i class="fa-solid fa-bullseye"></i> هدف السيولة المتوقع (Draw on Liquidity - DOL) 🎯</h2>
-            <div class="status-text" style="font-size: 1.1rem;">في انتظار التحليل...</div>
-        </div>
-
-        <!-- 4. قسم إدخال وجلب الأخبار الاقتصادية -->
-        <div class="news-section">
-            <h2 class="card-title" style="color: var(--text-main); margin-bottom: 20px;">
-                <i class="fa-solid fa-newspaper"></i> إدخال الأخبار الاقتصادية / التحديث التلقائي
-            </h2>
             
-            <!-- زر الجلب التلقائي -->
-            <button class="btn-fetch" id="autoFetchBtn">
-                <i class="fa-solid fa-bolt"></i> جلب وتحليل أخبار اليوم والجلسة تلقائياً (Auto-Fetch)
-            </button>
-
-            <!-- حقل النص اليدوي للتجارب -->
-            <textarea class="textarea-news" id="manualNewsInput" placeholder="أدخل الأخبار يدويًا هنا في حال أردت تجربة نص معين..."></textarea>
-
-            <!-- زر تحليل الأخبار المدخلة -->
-            <button class="btn-analyse" id="analyseNewsBtn">تحليل الأخبار المدخلة الآن</button>
-        </div>
-
+            <!-- News -->
+            <div class="news-section">
+                <h3>📰 الأخبار الاقتصادية</h3>
+                {% if news_data %}
+                    {% for news in news_data[:10] %}
+                    <div class="news-item">
+                        <span class="news-impact {{ news.impact|lower }}">
+                            {{ news.impact|upper }}
+                        </span>
+                        <div class="news-content">
+                            <div class="news-title">{{ news.title }}</div>
+                            <div class="news-time">🕐 {{ news.time }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: #888;">لا توجد أخبار حالياً</p>
+                {% endif %}
+            </div>
+        </main>
     </div>
-
-    <!-- ربط بملف الـ JavaScript الخارجي -->
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

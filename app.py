@@ -1,74 +1,122 @@
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import os
-import io
-from flask import Flask, render_template, request, jsonify
-import google.generativeai as genai
-from PIL import Image
-
-# ربط كاع الملفات والخدمات القديمة
-from services.ai_engine import * 
-from services.news_fetcher import *
-from services.news_provider import *
-from services.news import *
-from services.translator import *
+from werkzeug.utils import secure_filename
+from services.ai_engine import analyze_chart_with_gemini
+from services.gold_price import get_gold_price
+from services.forex_factory import get_news
+from services.config import GEMINI_API_KEY
+from datetime import datetime
+import json
 
 app = Flask(__name__)
 
-# ==========================================
-# 1. إعداد الـ Gemini API والـ Key ديالك
-# ==========================================
-GEMINI_API_KEY = "AQ.Ab8RN6IHbXcjEcC2hXRGHQmropcrT7neFd0u89js_VAeR3Dk0w"
-genai.configure(api_key=GEMINI_API_KEY)
+# إعدادات رفع الصور
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
 
+# إنشاء مجلد uploads إذا لم يكن موجوداً
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
-# ==========================================
-# 2. الـ Routes (الصفحات ديال الموقع)
-# ==========================================
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# صفحة الـ Dashboard الرئيسية (ديال الـ Live Price والأخبار)
+# ==================== الصفحة الرئيسية ====================
 @app.route('/')
 def index():
-    return render_template('index.html')
+    """الصفحة الرئيسية - لوحة التحكم"""
+    try:
+        # جلب سعر الذهب الفوري
+        gold_data = get_gold_price()
+        current_price = gold_data.get('price', 'N/A')
+        price_change = gold_data.get('change', 'N/A')
+        
+        # جلب الأخبار الاقتصادية
+        news_data = get_news()
+        
+        return render_template('index.html',
+            current_price=current_price,
+            price_change=price_change,
+            news_data=news_data,
+            now=datetime.now()
+        )
+    except Exception as e:
+        return render_template('index.html',
+            current_price='Error',
+            price_change='Error',
+            news_data=[],
+            now=datetime.now(),
+            error=str(e)
+        )
 
+# ==================== صفحة AI Analyzer ====================
+@app.route('/ai-analyze')
+def ai_analyze_page():
+    """صفحة تحليل الشارت بالذكاء الاصطناعي"""
+    return render_template('ai_analyse.html')
 
-# صفحة الـ AI Analyse الجديدة (فين غاتحط السكرين شوت)
-@app.route('/ai-analyse', methods=['GET', 'POST'])
-def ai_analyse():
-    if request.method == 'GET':
-        return render_template('ai_analyse.html')
+# ==================== تحليل الصورة ====================
+@app.route('/ai-analyze', methods=['POST'])
+def ai_analyze():
+    """استقبال الصورة وتحليلها بـ Gemini"""
+    # التحقق من وجود صورة
+    if 'chart_image' not in request.files:
+        return jsonify({'error': 'الرجاء رفع صورة الشارت'}), 400
     
-    if request.method == 'POST':
-        if 'chart_img' not in request.files:
-            return jsonify({'error': 'No image uploaded'}), 400
-            
-        file = request.files['chart_img']
-        if file.filename == '':
-            return jsonify({'error': 'No file selected'}), 400
-
+    file = request.files['chart_image']
+    
+    if file.filename == '':
+        return jsonify({'error': 'الرجاء اختيار صورة'}), 400
+    
+    if file and allowed_file(file.filename):
+        # حفظ الصورة مؤقتاً
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        
         try:
-            image_bytes = file.read()
-            image = Image.open(io.BytesIO(image_bytes))
+            # تحليل الصورة باستخدام Gemini
+            analysis_result = analyze_chart_with_gemini(filepath)
             
-            prompt = """
-            You are an expert Smart Money Concepts (SMC) and ICT trader specializing in XAUUSD (Gold).
-            Analyze this chart screenshot and provide a highly professional, detailed technical breakdown in Darija (Moroccan Arabic mixed with trading terms like OB, FVG, Liquidity, Bias, Premium/Discount, Killzones).
+            # حذف الصورة بعد التحليل
+            if os.path.exists(filepath):
+                os.remove(filepath)
             
-            Focus heavily on:
-            1. High-Probability Order Blocks (OB): Identify the best OB that matches premium/discount zones and has unmitigated liquidity.
-            2. Key Fair Value Gaps (FVG) or iFVG: Point out the most important gaps that the market is likely to draw into.
-            3. Liquidity & DOL (Draw on Liquidity): Where are the stops sitting? (PDH, PDL, Session Highs/Lows).
-            4. Execution Verdict: Based on the trend and high-timeframe context visible, what is the highest probability setup to wait for?
-            
-            Keep the response structured, sharp, and easy to read using bullet points. Write in Moroccan Darija Arabic script.
-            """
-            
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            response = model.generate_content([prompt, image])
-            
-            return jsonify({'analysis': response.text})
+            return jsonify({
+                'success': True,
+                'analysis': analysis_result
+            })
             
         except Exception as e:
-            return jsonify({'error': str(e)}), 500
+            # حذف الصورة في حالة الخطأ
+            if os.path.exists(filepath):
+                os.remove(filepath)
+            return jsonify({'error': f'خطأ في التحليل: {str(e)}'}), 500
+    
+    return jsonify({'error': 'نوع الملف غير مدعوم. استخدم PNG, JPG, JPEG, WEBP, أو GIF'}), 400
 
+# ==================== API جلب سعر الذهب ====================
+@app.route('/api/gold-price')
+def api_gold_price():
+    """API لجلب سعر الذهب الفوري"""
+    try:
+        gold_data = get_gold_price()
+        return jsonify(gold_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
+# ==================== API جلب الأخبار ====================
+@app.route('/api/news')
+def api_news():
+    """API لجلب الأخبار الاقتصادية"""
+    try:
+        news_data = get_news()
+        return jsonify(news_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ==================== تشغيل السيرفر ====================
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
