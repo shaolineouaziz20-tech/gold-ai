@@ -1,22 +1,34 @@
-from playwright.sync_api import sync_playwright
+"""
+جلب الأخبار الاقتصادية من Forex Factory
+"""
 
+import requests
+import json
+import logging
+from datetime import datetime
 
-def fetch_forex_factory_news():
+logger = logging.getLogger(__name__)
 
-    with sync_playwright() as p:
-
-        browser = p.chromium.launch(headless=True)
-
-        page = browser.new_page()
-
-        page.goto(
-            "https://www.forexfactory.com/calendar",
-            wait_until="domcontentloaded",
-            timeout=60000
-        )
-
-        print("Forex Factory OK")
-
-        browser.close()
-
-    return []
+def get_news():
+    """
+    جلب الأخبار الاقتصادية عالية التأثير
+    
+    Returns:
+        list: قائمة بالأخبار
+    """
+    try:
+        # استخدام API مجاني للأخبار الاقتصادية
+        # هذا مثال باستخدام API وهمي، استبدله بمصدر حقيقي
+        url = "https://api.example.com/forex-news"
+        response = requests.get(url, timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            return data.get('news', [])
+        else:
+            logger.error(f"Error fetching news: {response.status_code}")
+            return []
+            
+    except Exception as e:
+        logger.error(f"Error fetching news: {str(e)}")
+        return []

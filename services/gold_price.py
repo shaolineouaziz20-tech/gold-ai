@@ -1,35 +1,38 @@
-import yfinance as yf
+"""
+جلب سعر الذهب الفوري من API
+"""
+
 import requests
+import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 def get_gold_price():
     """
-    جلب سعر الذهب الحقيقي المباشر XAUUSD
+    جلب سعر الذهب الفوري (XAUUSD)
+    
+    Returns:
+        dict: {'price': float, 'change': float}
     """
     try:
-        # 1. التجربة عبر yfinance
-        gold = yf.Ticker("GC=F")
-        data = gold.history(period="1d", interval="1m")
+        # استخدام API مجاني (مثال: GoldAPI أو أي مصدر آخر)
+        url = "https://api.gold-api.com/price/XAU"
+        response = requests.get(url, timeout=10)
         
-        if not data.empty:
-            raw_price = float(data['Close'].iloc[-1])
-            # تصحيح الفارق بين Futures و Spot OANDA (حوالي -3.3$)
-            spot_price = raw_price - 3.30 
-            return f"{spot_price:.2f}"
+        if response.status_code == 200:
+            data = response.json()
+            price = data.get('price', 0)
+            change = data.get('change', 0)
+            
+            return {
+                'price': round(price, 2),
+                'change': round(change, 2)
+            }
+        else:
+            logger.error(f"Error fetching gold price: {response.status_code}")
+            return {'price': 'N/A', 'change': 'N/A'}
             
     except Exception as e:
-        print(f"[YFINANCE ERROR] {e}")
-
-    try:
-        # 2. احتياطي سريع عبر API آخر
-        res = requests.get("https://api.gold-api.com/price/XAU", timeout=3)
-        if res.status_code == 200:
-            price = res.json().get("price")
-            if price:
-                return f"{float(price):.2f}"
-    except Exception as e:
-        print(f"[GOLD API ERROR] {e}")
-
-    return "N/A"
-
-if __name__ == "__main__":
-    print("XAUUSD Price:", get_gold_price())
+        logger.error(f"Error fetching gold price: {str(e)}")
+        return {'price': 'N/A', 'change': 'N/A'}

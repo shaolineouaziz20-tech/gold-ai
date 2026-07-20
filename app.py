@@ -1,16 +1,15 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 import os
+import json
+from datetime import datetime
 from werkzeug.utils import secure_filename
-from services.ai_engine import analyze_chart_with_gemini
 from services.gold_price import get_gold_price
 from services.forex_factory import get_news
 from services.config import GEMINI_API_KEY
-from datetime import datetime
-import json
 
 app = Flask(__name__)
 
-# إعدادات رفع الصور
+# ==================== إعدادات رفع الصور ====================
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -78,6 +77,7 @@ def ai_analyze():
         
         try:
             # تحليل الصورة باستخدام Gemini
+            from services.ai_engine import analyze_chart_with_gemini
             analysis_result = analyze_chart_with_gemini(filepath)
             
             # حذف الصورة بعد التحليل
