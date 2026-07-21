@@ -232,6 +232,7 @@
             font-size: 22px;
             font-weight: 700;
             margin-top: 4px;
+            transition: all 0.3s;
         }
 
         .price-item .value.gold {
@@ -284,6 +285,22 @@
             color: #888;
             font-size: 13px;
             line-height: 1.6;
+        }
+
+        /* ====== LIVE INDICATOR ====== */
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #2ecc71;
+            border-radius: 50%;
+            margin-left: 6px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
         }
 
         /* ====== RESPONSIVE ====== */
@@ -369,8 +386,8 @@
                     <div class="logo-text">gold.<span>ai</span></div>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="#" class="active">Home</a></li>
-                    <li><a href="#">News</a></li>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="{{ url_for('news_page') }}">News</a></li>
                     <li><a href="{{ url_for('ai_analyze_page') }}">AI Analyze</a></li>
                 </ul>
             </div>
@@ -392,14 +409,14 @@
             </p>
             <div class="hero-buttons">
                 <a href="{{ url_for('ai_analyze_page') }}" class="btn-primary">Start analysing →</a>
-                <a href="#" class="btn-secondary">View market news</a>
+                <a href="{{ url_for('news_page') }}" class="btn-secondary">View market news</a>
             </div>
         </section>
 
         <!-- ===== PRICE TICKER ===== -->
         <div class="price-ticker">
             <div class="price-item">
-                <div class="label">💰 Gold (XAUUSD)</div>
+                <div class="label">💰 Gold (XAUUSD) <span class="live-indicator"></span></div>
                 <div class="value gold">${{ current_price }}</div>
             </div>
             <div class="price-item">
@@ -434,6 +451,72 @@
         </div>
 
     </div>
+
+    <!-- ========================================================== -->
+    <!--  JAVASCRIPT - تحديث السعر تلقائياً كل 3 ثواني               -->
+    <!-- ========================================================== -->
+    <script>
+        // =============================================
+        //  تحديث سعر الذهب تلقائياً كل 3 ثواني
+        // =============================================
+
+        // عناصر الصفحة لي غادي نحدثوها
+        const priceElement = document.querySelector('.price-item .value.gold');
+        const changeElement = document.querySelector('.price-item .value.green, .price-item .value.red');
+        const timeElement = document.querySelector('.price-item .value[style*="color:#888"]');
+
+        // دالة لجلب السعر من API
+        async function updatePrice() {
+            try {
+                const response = await fetch('/api/gold-price');
+                const data = await response.json();
+
+                if (data.price && data.price !== 'N/A') {
+                    // تحديث السعر
+                    if (priceElement) {
+                        priceElement.textContent = '$' + data.price;
+                    }
+
+                    // تحديث التغيير
+                    if (changeElement) {
+                        const change = parseFloat(data.change);
+                        changeElement.textContent = (change > 0 ? '+' : '') + data.change + '%';
+                        changeElement.className = 'value ' + (change >= 0 ? 'green' : 'red');
+                    }
+
+                    // تحديث الوقت
+                    if (timeElement) {
+                        const now = new Date();
+                        timeElement.textContent = now.toLocaleTimeString('en-US', { 
+                            hour12: false,
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit'
+                        });
+                    }
+
+                    // تغيير لون السعر بشكل خفيف (تأثير بصري)
+                    if (priceElement) {
+                        priceElement.style.transition = 'color 0.3s';
+                        priceElement.style.color = '#fff';
+                        setTimeout(() => {
+                            priceElement.style.color = '#f1c40f';
+                        }, 300);
+                    }
+                }
+            } catch (error) {
+                console.log('⚠️ Error fetching price:', error);
+            }
+        }
+
+        // أول تحديث فور تحميل الصفحة (بعد ثانية)
+        setTimeout(updatePrice, 1000);
+
+        // كل 3 ثواني = 3000 ميلي ثانية
+        setInterval(updatePrice, 3000);
+
+        console.log('🔄 Gold price auto-update started (every 3 seconds)');
+    </script>
 
 </body>
 </html>
