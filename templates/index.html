@@ -6,13 +6,11 @@
     <title>gold.ai - AI-powered gold market analysis</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ====== RESET ====== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', sans-serif;
             background: #0b0d0e;
@@ -21,8 +19,6 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* ====== CONTAINER ====== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -36,23 +32,20 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             flex-wrap: wrap;
             gap: 15px;
         }
-
         .nav-left {
             display: flex;
             align-items: center;
             gap: 40px;
         }
-
         .logo {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         .logo-icon {
             width: 32px;
             height: 32px;
@@ -65,7 +58,6 @@
             font-size: 18px;
             color: #0b0d0e;
         }
-
         .logo-text {
             font-size: 20px;
             font-weight: 800;
@@ -74,13 +66,11 @@
         .logo-text span {
             color: #f1c40f;
         }
-
         .nav-links {
             display: flex;
             gap: 30px;
             list-style: none;
         }
-
         .nav-links a {
             color: #a0a0a0;
             text-decoration: none;
@@ -88,21 +78,17 @@
             font-weight: 500;
             transition: 0.3s;
         }
-
         .nav-links a:hover {
             color: #ffffff;
         }
-
         .nav-links a.active {
             color: #ffffff;
         }
-
         .nav-right {
             display: flex;
             align-items: center;
             gap: 20px;
         }
-
         .launch-btn {
             background: linear-gradient(135deg, #f5b041, #f1c40f);
             color: #0b0d0e;
@@ -113,10 +99,9 @@
             font-size: 14px;
             transition: 0.3s;
         }
-
         .launch-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(241, 196, 15, 0.3);
+            box-shadow: 0 8px 30px rgba(241,196,15,0.3);
         }
 
         /* ====== HERO ====== */
@@ -127,10 +112,9 @@
             text-align: center;
             padding: 80px 0 60px 0;
         }
-
         .hero-badge {
-            background: rgba(241, 196, 15, 0.1);
-            border: 1px solid rgba(241, 196, 15, 0.2);
+            background: rgba(241,196,15,0.1);
+            border: 1px solid rgba(241,196,15,0.2);
             color: #f1c40f;
             padding: 6px 18px;
             border-radius: 30px;
@@ -141,14 +125,12 @@
             display: inline-block;
             margin-bottom: 20px;
         }
-
         .hero h1 {
             font-size: 64px;
             font-weight: 900;
             line-height: 1.1;
             max-width: 800px;
         }
-
         .hero h1 .highlight {
             background: linear-gradient(135deg, #f5b041, #f1c40f);
             -webkit-background-clip: text;
@@ -156,7 +138,6 @@
             -webkit-text-fill-color: transparent;
             color: transparent;
         }
-
         .hero p {
             color: #a0a0a0;
             font-size: 18px;
@@ -164,7 +145,6 @@
             line-height: 1.7;
             margin-top: 20px;
         }
-
         .hero-buttons {
             display: flex;
             gap: 15px;
@@ -172,7 +152,6 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, #f5b041, #f1c40f);
             color: #0b0d0e;
@@ -183,15 +162,13 @@
             font-size: 16px;
             transition: 0.3s;
         }
-
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(241, 196, 15, 0.4);
+            box-shadow: 0 10px 40px rgba(241,196,15,0.4);
         }
-
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             color: #ffffff;
             padding: 14px 40px;
             border-radius: 50px;
@@ -200,9 +177,8 @@
             font-size: 16px;
             transition: 0.3s;
         }
-
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
         }
 
         /* ====== PRICE TICKER ====== */
@@ -211,83 +187,35 @@
             justify-content: center;
             gap: 40px;
             padding: 25px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             margin-top: 20px;
             flex-wrap: wrap;
         }
-
         .price-item {
             text-align: center;
         }
-
         .price-item .label {
             color: #666;
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .price-item .value {
             font-size: 22px;
             font-weight: 700;
             margin-top: 4px;
             transition: all 0.3s;
         }
-
         .price-item .value.gold {
             color: #f1c40f;
         }
-
         .price-item .value.green {
             color: #2ecc71;
         }
-
         .price-item .value.red {
             color: #e74c3c;
         }
-
-        /* ====== FEATURES ====== */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            padding: 50px 0;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 25px 20px;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: rgba(241, 196, 15, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .feature-card .icon {
-            font-size: 32px;
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        .feature-card h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .feature-card p {
-            color: #888;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        /* ====== LIVE INDICATOR ====== */
         .live-indicator {
             display: inline-block;
             width: 8px;
@@ -297,10 +225,44 @@
             margin-left: 6px;
             animation: pulse 1.5s ease-in-out infinite;
         }
-
         @keyframes pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        /* ====== FEATURES ====== */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding: 50px 0;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .feature-card:hover {
+            border-color: rgba(241,196,15,0.3);
+            transform: translateY(-3px);
+        }
+        .feature-card .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .feature-card p {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
         /* ====== RESPONSIVE ====== */
@@ -310,64 +272,51 @@
                 align-items: stretch;
                 gap: 10px;
             }
-
             .nav-left {
                 flex-wrap: wrap;
                 gap: 15px;
                 justify-content: space-between;
             }
-
             .nav-links {
                 gap: 15px;
                 flex-wrap: wrap;
             }
-
             .nav-right {
                 justify-content: flex-start;
             }
-
             .hero h1 {
                 font-size: 36px;
             }
-
             .hero p {
                 font-size: 16px;
                 padding: 0 10px;
             }
-
             .hero-buttons {
                 flex-direction: column;
                 align-items: center;
                 width: 100%;
             }
-
             .hero-buttons a {
                 width: 100%;
                 text-align: center;
             }
-
             .features {
                 grid-template-columns: 1fr;
             }
-
             .price-ticker {
                 gap: 20px;
             }
-
             .price-item .value {
                 font-size: 18px;
             }
         }
-
         @media (max-width: 480px) {
             .container {
                 padding: 0 15px;
             }
-
             .hero h1 {
                 font-size: 28px;
             }
-
             .logo-text {
                 font-size: 16px;
             }
@@ -452,56 +401,31 @@
 
     </div>
 
-    <!-- ========================================================== -->
-    <!--  JAVASCRIPT - تحديث السعر تلقائياً كل 3 ثواني               -->
-    <!-- ========================================================== -->
     <script>
-        // =============================================
-        //  تحديث سعر الذهب تلقائياً كل 3 ثواني
-        // =============================================
-
-        // عناصر الصفحة لي غادي نحدثوها
+        // تحديث السعر كل 3 ثواني
         const priceElement = document.querySelector('.price-item .value.gold');
         const changeElement = document.querySelector('.price-item .value.green, .price-item .value.red');
         const timeElement = document.querySelector('.price-item .value[style*="color:#888"]');
 
-        // دالة لجلب السعر من API
         async function updatePrice() {
             try {
                 const response = await fetch('/api/gold-price');
                 const data = await response.json();
-
                 if (data.price && data.price !== 'N/A') {
-                    // تحديث السعر
-                    if (priceElement) {
-                        priceElement.textContent = '$' + data.price;
-                    }
-
-                    // تحديث التغيير
+                    if (priceElement) priceElement.textContent = '$' + data.price;
                     if (changeElement) {
                         const change = parseFloat(data.change);
                         changeElement.textContent = (change > 0 ? '+' : '') + data.change + '%';
                         changeElement.className = 'value ' + (change >= 0 ? 'green' : 'red');
                     }
-
-                    // تحديث الوقت
                     if (timeElement) {
                         const now = new Date();
-                        timeElement.textContent = now.toLocaleTimeString('en-US', { 
-                            hour12: false,
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit'
-                        });
+                        timeElement.textContent = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
                     }
-
-                    // تغيير لون السعر بشكل خفيف (تأثير بصري)
                     if (priceElement) {
                         priceElement.style.transition = 'color 0.3s';
                         priceElement.style.color = '#fff';
-                        setTimeout(() => {
-                            priceElement.style.color = '#f1c40f';
-                        }, 300);
+                        setTimeout(() => { priceElement.style.color = '#f1c40f'; }, 300);
                     }
                 }
             } catch (error) {
@@ -509,12 +433,8 @@
             }
         }
 
-        // أول تحديث فور تحميل الصفحة (بعد ثانية)
         setTimeout(updatePrice, 1000);
-
-        // كل 3 ثواني = 3000 ميلي ثانية
         setInterval(updatePrice, 3000);
-
         console.log('🔄 Gold price auto-update started (every 3 seconds)');
     </script>
 

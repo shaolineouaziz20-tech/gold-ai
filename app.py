@@ -36,23 +36,14 @@ def index():
 # ====== NEWS PAGE ======
 @app.route('/news')
 def news_page():
-    from services.gold_price import get_gold_price
-    from services.forex_factory import get_news
-    
-    # جلب سعر الذهب
     gold_data = get_gold_price()
     current_price = gold_data.get('price', 'N/A')
     price_change = gold_data.get('change', 'N/A')
-    
-    # جلب الأخبار
     news_data = get_news()
     
-    # تحليل الجلسة
     session_bias = "NEUTRAL"
     confidence = 0
     bias_reason = "في انتظار تحليل البيانات..."
-    
-    # DOL
     dol_target = "في انتظار التحليل..."
     dol_reason = "سيتم تحديده بناء على الأخبار"
     
@@ -76,14 +67,17 @@ def ai_analyze_page():
 # ====== AI ANALYZE (POST) ======
 @app.route('/ai-analyze', methods=['POST'])
 def ai_analyze():
-    if 'chart_image' not in request.files:
-        return jsonify({'error': 'الرجاء رفع صورة'}), 400
-    
-    file = request.files['chart_image']
-    if file.filename == '':
-        return jsonify({'error': 'الرجاء اختيار صورة'}), 400
-    
-    if file and allowed_file(file.filename):
+    try:
+        if 'chart_image' not in request.files:
+            return jsonify({'error': 'الرجاء رفع صورة'}), 400
+        
+        file = request.files['chart_image']
+        if file.filename == '':
+            return jsonify({'error': 'الرجاء اختيار صورة'}), 400
+        
+        if not allowed_file(file.filename):
+            return jsonify({'error': 'نوع الملف غير مدعوم'}), 400
+        
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
@@ -91,25 +85,23 @@ def ai_analyze():
         try:
             from services.ai_engine import analyze_chart_with_gemini
             result = analyze_chart_with_gemini(filepath)
-            os.remove(filepath)
-            
-            # تنظيف النص قبل الإرسال
-            clean_result = result.encode('utf-8', 'ignore').decode('utf-8')
-            return jsonify({'success': True, 'analysis': clean_result})
-            
+            if os.path.exists(filepath):
+                os.remove(filepath)
+            return jsonify({
+                'success': True,
+                'analysis': result.encode('utf-8', 'ignore').decode('utf-8')
+            })
         except Exception as e:
             if os.path.exists(filepath):
                 os.remove(filepath)
-            return jsonify({'error': f'خطأ: {str(e)}'}), 500
-    
-    return jsonify({'error': 'نوع الملف غير مدعوم'}), 400
+            return jsonify({'error': f'خطأ في التحليل: {str(e)}'}), 500
+    except Exception as e:
+        return jsonify({'error': f'خطأ عام: {str(e)}'}), 500
 
 # ====== API GET GOLD PRICE ======
 @app.route('/api/gold-price')
 def api_gold_price():
-    """جلب سعر الذهب فوري عبر API"""
     try:
-        from services.gold_price import get_gold_price
         data = get_gold_price()
         return jsonify({
             'price': data.get('price', 'N/A'),
