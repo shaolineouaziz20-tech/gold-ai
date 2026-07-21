@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🤖 Gold AI - محلل الشارت بالذكاء الاصطناعي</title>
+    <title>🤖 Gold AI - تحليل الشارت</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         /* ====== RESET ====== */
@@ -41,21 +41,15 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
         
-        .gold-icon {
-            font-size: 40px;
-            animation: goldShine 2s infinite;
+        .logo span {
+            font-size: 30px;
         }
         
-        @keyframes goldShine {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        .logo h1 {
-            font-size: 28px;
+        .logo h2 {
+            font-size: 22px;
             font-weight: 700;
             background: linear-gradient(135deg, #f7971e, #ffd200);
             -webkit-background-clip: text;
@@ -64,19 +58,13 @@
             color: transparent;
         }
         
-        .logo h1 span {
-            -webkit-text-fill-color: #fff;
-            color: #fff;
-        }
-        
         .back-btn {
             color: #888;
             text-decoration: none;
-            padding: 10px 24px;
+            padding: 8px 20px;
             border: 1px solid #1a2332;
-            border-radius: 10px;
+            border-radius: 8px;
             transition: all 0.3s;
-            font-weight: 600;
         }
         
         .back-btn:hover {
@@ -84,14 +72,7 @@
             color: #fff;
         }
         
-        /* ====== UPLOAD SECTION ====== */
-        .upload-section {
-            background: #111927;
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid #1a2332;
-        }
-        
+        /* ====== UPLOAD ====== */
         .upload-box {
             border: 2px dashed #2a3a52;
             border-radius: 16px;
@@ -104,42 +85,34 @@
         
         .upload-box:hover {
             border-color: #f7971e;
-            background: #111927;
         }
         
         .upload-box.dragover {
             border-color: #ffd200;
             background: #1a2332;
-            transform: scale(1.02);
         }
         
         .upload-icon {
-            font-size: 60px;
+            font-size: 50px;
             display: block;
-            margin-bottom: 15px;
-        }
-        
-        .upload-content h2 {
-            font-size: 22px;
             margin-bottom: 10px;
+        }
+        
+        .upload-box h3 {
             color: #fff;
+            font-size: 20px;
         }
         
-        .upload-content p {
+        .upload-box p {
             color: #888;
-            margin-bottom: 5px;
-        }
-        
-        .formats {
-            font-size: 12px;
-            color: #555;
+            margin: 5px 0;
         }
         
         .upload-btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 40px;
+            padding: 10px 30px;
             border-radius: 30px;
             font-size: 16px;
             font-weight: 600;
@@ -158,11 +131,6 @@
             margin-top: 20px;
             text-align: center;
             display: none;
-        }
-        
-        #previewContainer h3 {
-            color: #fff;
-            margin-bottom: 10px;
         }
         
         #imagePreview {
@@ -188,11 +156,6 @@
             display: none;
         }
         
-        .analyze-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
         .analyze-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 5px 25px rgba(247, 151, 30, 0.4);
@@ -206,8 +169,8 @@
         
         .result-box {
             background: #111927;
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 25px;
             border: 1px solid #1a2332;
         }
         
@@ -215,31 +178,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid #1a2332;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
             gap: 10px;
         }
         
-        .result-header h2 {
+        .result-header h3 {
             color: #fff;
-            font-size: 22px;
-        }
-        
-        .result-header .result-icon {
-            font-size: 30px;
+            font-size: 20px;
         }
         
         .copy-btn {
-            padding: 8px 20px;
+            padding: 6px 16px;
             background: #1a2332;
             color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
+            transition: 0.3s;
         }
         
         .copy-btn:hover {
@@ -248,29 +206,18 @@
         
         .result-content {
             line-height: 2;
-            font-size: 16px;
+            font-size: 15px;
             color: #d0d0d0;
-            padding: 20px;
+            padding: 15px;
             background: #0d1520;
-            border-radius: 12px;
+            border-radius: 10px;
             white-space: pre-wrap;
-            max-height: 600px;
+            max-height: 500px;
             overflow-y: auto;
         }
         
         .result-content strong {
             color: #ffd200;
-        }
-        
-        .result-content h2,
-        .result-content h3 {
-            color: #fff;
-            margin: 15px 0 8px 0;
-        }
-        
-        .result-content .highlight {
-            color: #ffd200;
-            font-weight: bold;
         }
         
         /* ====== LOADING ====== */
@@ -293,8 +240,8 @@
         }
         
         .loading-spinner {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border: 4px solid #1a2332;
             border-top-color: #f7971e;
             border-radius: 50%;
@@ -306,26 +253,16 @@
         }
         
         .loading-text {
-            margin-top: 20px;
+            margin-top: 15px;
             color: #fff;
             font-size: 18px;
         }
         
-        .loading-subtext {
-            color: #888;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-        
         /* ====== RESPONSIVE ====== */
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             header {
                 flex-direction: column;
                 text-align: center;
-            }
-            
-            .logo h1 {
-                font-size: 20px;
             }
             
             .upload-box {
@@ -336,114 +273,70 @@
                 font-size: 40px;
             }
             
-            .result-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
             .result-content {
                 font-size: 14px;
-                max-height: 400px;
-            }
-            
-            .analyze-btn {
-                font-size: 16px;
-                padding: 14px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .logo h1 {
-                font-size: 18px;
-            }
-            
-            .upload-box {
-                padding: 20px 10px;
-            }
-            
-            .upload-content h2 {
-                font-size: 18px;
-            }
-            
-            .back-btn {
-                padding: 8px 16px;
-                font-size: 14px;
+                max-height: 350px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- ===== HEADER ===== -->
+        <!-- HEADER -->
         <header>
             <div class="logo">
-                <span class="gold-icon">🥇</span>
-                <h1>Gold AI <span>Analyzer</span></h1>
+                <span>🤖</span>
+                <h2>Gold AI Analyzer</h2>
             </div>
-            <a href="{{ url_for('index') }}" class="back-btn">← العودة للرئيسية</a>
+            <a href="{{ url_for('index') }}" class="back-btn">← العودة</a>
         </header>
 
-        <!-- ===== UPLOAD SECTION ===== -->
-        <div class="upload-section">
-            <div class="upload-box" id="dropZone">
-                <div class="upload-content">
-                    <span class="upload-icon">📤</span>
-                    <h2>ارفع سكرين شوت الشارت</h2>
-                    <p>اسحب الصورة هنا أو اضغط للاختيار</p>
-                    <p class="formats">الصيغ المدعومة: PNG, JPG, JPEG, WEBP, GIF</p>
-                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
-                        اختيار صورة
-                    </button>
-                    <input type="file" id="fileInput" accept="image/*" style="display:none">
-                </div>
-            </div>
-
-            <!-- Preview -->
-            <div id="previewContainer">
-                <h3>📸 معاينة الصورة</h3>
-                <img id="imagePreview" src="#" alt="معاينة الشارت">
-            </div>
-
-            <!-- Analyze Button -->
-            <button id="analyzeBtn" class="analyze-btn" disabled>
-                🤖 تحليل الشارت بالذكاء الاصطناعي
+        <!-- UPLOAD -->
+        <div class="upload-box" id="dropZone">
+            <span class="upload-icon">📤</span>
+            <h3>ارفع سكرين شوت الشارت</h3>
+            <p>اسحب الصورة هنا أو اضغط للاختيار</p>
+            <p style="font-size:12px;color:#555;">PNG, JPG, JPEG, WEBP, GIF</p>
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                اختيار صورة
             </button>
+            <input type="file" id="fileInput" accept="image/*" style="display:none">
         </div>
 
-        <!-- ===== RESULT ===== -->
+        <!-- PREVIEW -->
+        <div id="previewContainer">
+            <h3 style="color:#fff;margin-bottom:10px;">📸 معاينة</h3>
+            <img id="imagePreview" src="#" alt="معاينة">
+        </div>
+
+        <!-- ANALYZE BUTTON -->
+        <button id="analyzeBtn" class="analyze-btn" disabled>
+            🤖 تحليل الشارت
+        </button>
+
+        <!-- RESULT -->
         <div id="resultContainer">
             <div class="result-box">
                 <div class="result-header">
-                    <div>
-                        <span class="result-icon">📊</span>
-                        <h2>نتائج التحليل</h2>
-                    </div>
-                    <button class="copy-btn" onclick="copyResult()">📋 نسخ النتائج</button>
+                    <h3>📊 نتائج التحليل</h3>
+                    <button class="copy-btn" onclick="copyResult()">📋 نسخ</button>
                 </div>
-                <div id="resultContent" class="result-content">
-                    <!-- النتائج ستظهر هنا -->
-                </div>
+                <div id="resultContent" class="result-content"></div>
             </div>
         </div>
     </div>
 
-    <!-- ===== LOADING OVERLAY ===== -->
+    <!-- LOADING -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
-        <div class="loading-text">⏳ جاري تحليل الشارت...</div>
-        <div class="loading-subtext">هذا قد يستغرق بضع ثوانٍ</div>
+        <div class="loading-text">⏳ جاري التحليل...</div>
     </div>
 
     <script>
         // ============================================================
-        //  JAVASCRIPT - التفاعل الكامل
+        //  JAVASCRIPT
         // ============================================================
-
-        // -------- عناصر الصفحة --------
+        
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const analyzeBtn = document.getElementById('analyzeBtn');
@@ -455,17 +348,17 @@
 
         let selectedFile = null;
 
-        // -------- عند الضغط على صندوق الرفع --------
+        // Click to upload
         dropZone.addEventListener('click', () => fileInput.click());
 
-        // -------- عند اختيار ملف --------
+        // File selected
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 handleFile(e.target.files[0]);
             }
         });
 
-        // -------- السحب والإفلات --------
+        // Drag & Drop
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropZone.classList.add('dragover');
@@ -483,24 +376,20 @@
             }
         });
 
-        // -------- معالجة الملف المرفوع --------
         function handleFile(file) {
-            // التحقق من نوع الملف
             const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
             if (!validTypes.includes(file.type)) {
-                alert('❌ نوع الملف غير مدعوم. استخدم PNG, JPG, JPEG, WEBP, أو GIF');
+                alert('❌ نوع الملف غير مدعوم');
                 return;
             }
 
-            // التحقق من الحجم
             if (file.size > 10 * 1024 * 1024) {
-                alert('❌ حجم الصورة كبير جداً. الحد الأقصى 10 ميجابايت');
+                alert('❌ الحجم كبير جداً (حد أقصى 10 ميجابايت)');
                 return;
             }
 
             selectedFile = file;
 
-            // معاينة الصورة
             const reader = new FileReader();
             reader.onload = (e) => {
                 imagePreview.src = e.target.result;
@@ -508,19 +397,17 @@
                 analyzeBtn.style.display = 'block';
                 analyzeBtn.disabled = false;
                 resultContainer.style.display = 'none';
-                analyzeBtn.textContent = '🤖 تحليل الشارت بالذكاء الاصطناعي';
             };
             reader.readAsDataURL(file);
         }
 
-        // -------- عند الضغط على زر التحليل --------
+        // Analyze
         analyzeBtn.addEventListener('click', async () => {
             if (!selectedFile) return;
 
-            // إظهار شاشة التحميل
             loadingOverlay.classList.add('show');
             analyzeBtn.disabled = true;
-            analyzeBtn.textContent = '⏳ جاري التحليل...';
+            analyzeBtn.textContent = '⏳ جاري...';
 
             const formData = new FormData();
             formData.append('chart_image', selectedFile);
@@ -532,81 +419,42 @@
                 });
 
                 const data = await response.json();
-
-                // إخفاء شاشة التحميل
                 loadingOverlay.classList.remove('show');
 
                 if (data.success) {
-                    // عرض النتائج مع تنسيق أفضل
-                    let formattedResult = data.analysis
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\n/g, '<br>');
-                    
-                    resultContent.innerHTML = formattedResult;
+                    resultContent.innerHTML = data.analysis.replace(/\n/g, '<br>');
                     resultContainer.style.display = 'block';
                     analyzeBtn.textContent = '🔄 تحليل جديد';
                     analyzeBtn.disabled = false;
-                    
-                    // التمرير إلى النتائج
-                    resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
                     alert('❌ ' + data.error);
-                    analyzeBtn.textContent = '🤖 تحليل الشارت بالذكاء الاصطناعي';
+                    analyzeBtn.textContent = '🤖 تحليل الشارت';
                     analyzeBtn.disabled = false;
                 }
 
             } catch (error) {
                 loadingOverlay.classList.remove('show');
-                alert('❌ حدث خطأ في الاتصال: ' + error.message);
-                analyzeBtn.textContent = '🤖 تحليل الشارت بالذكاء الاصطناعي';
+                alert('❌ خطأ: ' + error.message);
+                analyzeBtn.textContent = '🤖 تحليل الشارت';
                 analyzeBtn.disabled = false;
             }
         });
 
-        // -------- دالة نسخ النتائج --------
+        // Copy
         function copyResult() {
             const text = resultContent.innerText;
-            
-            if (!text || text.trim() === '') {
-                alert('⚠️ لا يوجد نص للنسخ');
-                return;
-            }
-            
+            if (!text) return alert('⚠️ لا يوجد نص');
             navigator.clipboard.writeText(text).then(() => {
-                alert('✅ تم نسخ التحليل إلى الحافظة');
+                alert('✅ تم النسخ');
             }).catch(() => {
-                // طريقة بديلة للنسخ
-                try {
-                    const range = document.createRange();
-                    range.selectNode(resultContent);
-                    window.getSelection().removeAllRanges();
-                    window.getSelection().addRange(range);
-                    document.execCommand('copy');
-                    alert('✅ تم نسخ التحليل إلى الحافظة');
-                } catch (err) {
-                    alert('❌ فشل النسخ، حاول تحديد النص يدوياً');
-                }
+                const range = document.createRange();
+                range.selectNode(resultContent);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                alert('✅ تم النسخ');
             });
         }
-
-        // -------- عند الضغط على Escape لإلغاء التحميل --------
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && loadingOverlay.classList.contains('show')) {
-                loadingOverlay.classList.remove('show');
-                analyzeBtn.textContent = '🤖 تحليل الشارت بالذكاء الاصطناعي';
-                analyzeBtn.disabled = false;
-            }
-        });
-
-        // -------- عند الضغط على Enter في أي مكان --------
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !analyzeBtn.disabled && analyzeBtn.style.display !== 'none') {
-                analyzeBtn.click();
-            }
-        });
-
-        console.log('🤖 Gold AI Analyzer loaded successfully!');
-        console.log('📊 Upload a chart screenshot to get SMC/ICT analysis.');
     </script>
 </body>
 </html>
