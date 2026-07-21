@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📰 Gold AI - Market News & Daily Bias</title>
+    <title>📰 Gold AI - تحليل الأخبار والجلسات</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* ====== RESET ====== */
@@ -116,177 +116,197 @@
             box-shadow: 0 8px 30px rgba(241, 196, 15, 0.3);
         }
 
-        /* ====== BACK BUTTON ====== */
-        .back-link {
-            display: inline-block;
-            margin: 20px 0;
-            color: #888;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
+        /* ====== PAGE TITLE ====== */
+        .page-title {
+            padding: 30px 0 20px 0;
         }
 
-        .back-link:hover {
-            color: #fff;
-        }
-
-        /* ====== PAGE HEADER ====== */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0 30px 0;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .page-header h1 {
-            font-size: 32px;
+        .page-title h1 {
+            font-size: 28px;
             font-weight: 800;
         }
 
-        .page-header h1 span {
+        .page-title h1 span {
             color: #f1c40f;
         }
 
-        .page-header .update-time {
-            color: #666;
-            font-size: 14px;
+        /* ====== GRID ====== */
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            padding: 20px 0;
         }
 
-        /* ====== DAILY BIAS ====== */
-        .daily-bias {
+        /* ====== CARDS ====== */
+        .card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 25px 30px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .daily-bias .label {
-            color: #888;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .daily-bias .bias-value {
-            font-size: 28px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .daily-bias .bias-value.bullish {
-            color: #2ecc71;
-        }
-
-        .daily-bias .bias-value.bearish {
-            color: #e74c3c;
-        }
-
-        .daily-bias .bias-value.neutral {
-            color: #f1c40f;
-        }
-
-        .daily-bias .bias-reason {
-            color: #888;
-            font-size: 14px;
-            max-width: 400px;
-        }
-
-        /* ====== NEWS GRID ====== */
-        .news-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        .news-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 25px;
             transition: 0.3s;
-            flex-wrap: wrap;
-            gap: 15px;
         }
 
-        .news-card:hover {
+        .card:hover {
             border-color: rgba(241, 196, 15, 0.2);
         }
 
-        .news-card .news-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
+        .card .card-title {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
         }
 
-        .news-card .impact-badge {
-            padding: 4px 14px;
+        .card .card-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .card .card-value.bullish {
+            color: #2ecc71;
+        }
+
+        .card .card-value.bearish {
+            color: #e74c3c;
+        }
+
+        .card .card-value.neutral {
+            color: #f1c40f;
+        }
+
+        .card .card-sub {
+            color: #888;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .card .card-sub .highlight {
+            color: #f1c40f;
+        }
+
+        /* ====== FULL WIDTH CARD ====== */
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        /* ====== NEWS LIST ====== */
+        .news-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-item .impact-badge {
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        .news-card .impact-badge.high {
+        .news-item .impact-badge.high {
             background: #e74c3c;
             color: white;
         }
 
-        .news-card .impact-badge.medium {
+        .news-item .impact-badge.medium {
             background: #f39c12;
             color: white;
         }
 
-        .news-card .impact-badge.low {
+        .news-item .impact-badge.low {
             background: #555;
             color: white;
         }
 
-        .news-card .news-title {
-            font-size: 15px;
+        .news-item .news-title {
+            font-size: 14px;
             font-weight: 500;
+            flex: 1;
         }
 
-        .news-card .news-time {
-            color: #666;
-            font-size: 13px;
-        }
-
-        .news-card .news-analysis {
+        .news-item .news-impact {
             color: #888;
             font-size: 13px;
-            margin-top: 5px;
-            width: 100%;
         }
 
-        .news-card .news-analysis strong {
-            color: #f1c40f;
+        /* ====== MANUAL INPUT ====== */
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
         }
 
-        /* ====== NO NEWS ====== */
-        .no-news {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
+        .input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+            min-width: 200px;
         }
 
-        .no-news .icon {
-            font-size: 50px;
+        .input-group input:focus {
+            border-color: #f1c40f;
+        }
+
+        .input-group input::placeholder {
+            color: #555;
+        }
+
+        .input-group button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f5b041, #f1c40f);
+            color: #0b0d0e;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .input-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(241, 196, 15, 0.3);
+        }
+
+        /* ====== ANALYSIS RESULT ====== */
+        .analysis-result {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border-left: 3px solid #f1c40f;
+            display: none;
+        }
+
+        .analysis-result.show {
             display: block;
-            margin-bottom: 15px;
+        }
+
+        .analysis-result .result-text {
+            color: #d0d0d0;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .analysis-result .result-text strong {
+            color: #f1c40f;
         }
 
         /* ====== RESPONSIVE ====== */
@@ -312,25 +332,27 @@
                 justify-content: flex-start;
             }
 
-            .page-header h1 {
-                font-size: 24px;
+            .news-grid {
+                grid-template-columns: 1fr;
             }
 
-            .daily-bias {
-                flex-direction: column;
-                text-align: center;
+            .card-full {
+                grid-column: 1;
             }
 
-            .daily-bias .bias-value {
+            .card .card-value {
                 font-size: 22px;
             }
 
-            .news-card {
+            .input-group {
                 flex-direction: column;
-                align-items: flex-start;
             }
 
-            .news-card .news-left {
+            .input-group input {
+                width: 100%;
+            }
+
+            .input-group button {
                 width: 100%;
             }
         }
@@ -344,8 +366,8 @@
                 font-size: 16px;
             }
 
-            .page-header h1 {
-                font-size: 20px;
+            .page-title h1 {
+                font-size: 22px;
             }
         }
     </style>
@@ -372,57 +394,187 @@
             </div>
         </nav>
 
-        <!-- ===== BACK LINK ===== -->
-        <a href="/" class="back-link">← Back to Home</a>
-
-        <!-- ===== PAGE HEADER ===== -->
-        <div class="page-header">
-            <h1>📰 Market <span>News</span></h1>
-            <span class="update-time">🕐 Updated: {{ now.strftime('%Y-%m-%d %H:%M') }}</span>
+        <!-- ===== PAGE TITLE ===== -->
+        <div class="page-title">
+            <h1>📰 <span>تحليل الذهب</span> الذكي لجميع الجلسات</h1>
         </div>
 
-        <!-- ===== DAILY BIAS ===== -->
-        <div class="daily-bias">
-            <div>
-                <div class="label">📊 Daily Bias</div>
-                <div class="bias-value {% if daily_bias == 'Bullish' %}bullish{% elif daily_bias == 'Bearish' %}bearish{% else %}neutral{% endif %}">
-                    {% if daily_bias == 'Bullish' %}🟢 Bullish{% elif daily_bias == 'Bearish' %}🔴 Bearish{% else %}🟡 Neutral{% endif %}
+        <!-- ===== GRID ===== -->
+        <div class="news-grid">
+
+            <!-- ===== SESSION BIAS ===== -->
+            <div class="card">
+                <div class="card-title">📊 تحيز الجلسة القادمة (Session Bias)</div>
+                <div class="card-value {% if session_bias == 'Bullish' %}bullish{% elif session_bias == 'Bearish' %}bearish{% else %}neutral{% endif %}">
+                    {{ session_bias }}
+                </div>
+                <div class="card-sub">
+                    نسبة الثقة: <span class="highlight">{{ confidence }}%</span>
+                </div>
+                <div class="card-sub" style="font-size:12px;color:#555;margin-top:4px;">
+                    {{ bias_reason }}
                 </div>
             </div>
-            <div class="bias-reason">
-                <strong>Reason:</strong> {{ bias_reason }}
-            </div>
-        </div>
 
-        <!-- ===== NEWS GRID ===== -->
-        {% if news_data %}
-        <div class="news-grid">
-            {% for news in news_data %}
-            <div class="news-card">
-                <div class="news-left">
-                    <span class="impact-badge {{ news.impact|lower }}">
-                        {{ news.impact|upper }}
+            <!-- ===== GOLD PRICE ===== -->
+            <div class="card">
+                <div class="card-title">💰 سعر الذهب المباشر (XAUUSD)</div>
+                <div class="card-value" style="color:#f1c40f;">${{ current_price }}</div>
+                <div class="card-sub">
+                    تغيير: <span class="highlight {% if price_change|float > 0 %}bullish{% else %}bearish{% endif %}">
+                        {{ price_change }}%
                     </span>
-                    <div>
-                        <div class="news-title">{{ news.title }}</div>
-                        <div class="news-time">🕐 {{ news.time }}</div>
+                </div>
+                <div class="card-sub" style="font-size:12px;color:#555;margin-top:4px;">
+                    🕐 {{ now.strftime('%H:%M:%S') }}
+                </div>
+            </div>
+
+            <!-- ===== DRAW ON LIQUIDITY ===== -->
+            <div class="card">
+                <div class="card-title">🎯 هدف السيولة المتوقع (Draw on Liquidity - DOL)</div>
+                <div class="card-value" style="font-size:22px;color:#f1c40f;">{{ dol_target }}</div>
+                <div class="card-sub">
+                    {{ dol_reason }}
+                </div>
+            </div>
+
+            <!-- ===== NEWS AUTO-FETCH ===== -->
+            <div class="card">
+                <div class="card-title">📰 إدخال الأخبار الاقتصادية / التحديث التلقائي</div>
+                <div class="card-sub" style="font-size:14px;color:#888;margin-bottom:10px;">
+                    ⚡ جلب وتحليل أخبار اليوم والجلسة تلقائياً
+                </div>
+                <div style="font-size:13px;color:#555;">
+                    {{ news_data|length }} خبر مؤثر اليوم
+                </div>
+            </div>
+
+            <!-- ===== FULL WIDTH - NEWS LIST ===== -->
+            <div class="card card-full">
+                <div class="card-title">📋 تفاصيل الأخبار المؤثرة</div>
+                
+                {% if news_data %}
+                    {% for news in news_data %}
+                    <div class="news-item">
+                        <span class="impact-badge {{ news.impact|lower }}">
+                            {{ news.impact|upper }}
+                        </span>
+                        <span class="news-title">{{ news.title }}</span>
+                        <span class="news-impact">
+                            <span style="color:#888;">تأثير:</span> 
+                            <span style="color:#f1c40f;">{{ news.gold_impact }}%</span>
+                        </span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align:center;padding:30px 0;color:#555;">
+                        <span style="font-size:40px;display:block;margin-bottom:10px;">📭</span>
+                        لا توجد أخبار مؤثرة اليوم
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- ===== MANUAL INPUT ===== -->
+            <div class="card card-full">
+                <div class="card-title">✏️ أدخل الأخبار يدويًا هنا</div>
+                <div class="card-sub" style="font-size:13px;color:#555;margin-bottom:10px;">
+                    في حال أردت تجربة نص معين...
+                </div>
+                <div class="input-group">
+                    <input type="text" id="manualNews" placeholder="مثال: FED announces interest rate hike..." />
+                    <button onclick="analyzeManualNews()">تحليل الأخبار المدخلة الآن</button>
+                </div>
+                <div class="analysis-result" id="manualResult">
+                    <div class="result-text" id="manualResultText">
+                        <strong>💡 تحليل الخبر:</strong><br>
+                        تأثير متوقع على الذهب: <strong>+2.5%</strong><br>
+                        الاتجاه المتوقع: <strong>صاعد (Bullish)</strong>
                     </div>
                 </div>
-                <div class="news-analysis">
-                    <strong>💡 Impact on Gold:</strong> {{ news.analysis }}
-                </div>
             </div>
-            {% endfor %}
+
         </div>
-        {% else %}
-        <div class="no-news">
-            <span class="icon">📭</span>
-            <h3>No news available</h3>
-            <p>Check back later for market updates</p>
-        </div>
-        {% endif %}
 
     </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        function analyzeManualNews() {
+            const input = document.getElementById('manualNews');
+            const result = document.getElementById('manualResult');
+            const resultText = document.getElementById('manualResultText');
+            
+            const text = input.value.trim();
+            if (!text) {
+                alert('⚠️ الرجاء إدخال نص الخبر');
+                return;
+            }
+            
+            // تحليل بسيط للنص
+            let impact = 0;
+            let direction = 'محايد (Neutral)';
+            let color = '#f1c40f';
+            
+            // كلمات مفتاحية
+            const bullishKeywords = ['ارتفاع', 'زيادة', 'صاعد', 'bullish', 'up', 'rise', 'high', 'إيجابي'];
+            const bearishKeywords = ['انخفاض', 'نقص', 'هابط', 'bearish', 'down', 'fall', 'low', 'سلبي'];
+            const highImpact = ['فيد', 'الاحتياطي', 'البنك المركزي', 'تضخم', 'CPI', 'interest rate', 'سعر الفائدة'];
+            
+            // حساب التأثير
+            let score = 0;
+            const lowerText = text.toLowerCase();
+            
+            for (const word of highImpact) {
+                if (lowerText.includes(word.toLowerCase())) {
+                    score += 2;
+                }
+            }
+            
+            for (const word of bullishKeywords) {
+                if (lowerText.includes(word.toLowerCase())) {
+                    score += 1;
+                }
+            }
+            
+            for (const word of bearishKeywords) {
+                if (lowerText.includes(word.toLowerCase())) {
+                    score -= 1;
+                }
+            }
+            
+            // تحديد النتيجة
+            if (score > 2) {
+                impact = Math.min(5 + score, 15);
+                direction = 'صاعد (Bullish)';
+                color = '#2ecc71';
+            } else if (score < -2) {
+                impact = Math.min(5 + Math.abs(score), 15);
+                direction = 'هابط (Bearish)';
+                color = '#e74c3c';
+            } else {
+                impact = Math.min(1 + Math.abs(score), 5);
+                direction = 'محايد (Neutral)';
+                color = '#f1c40f';
+            }
+            
+            // عرض النتيجة
+            result.classList.add('show');
+            resultText.innerHTML = `
+                <strong>💡 تحليل الخبر:</strong><br>
+                📝 النص المدخل: "${text}"<br>
+                📊 التأثير المتوقع على الذهب: <strong style="color:${color};">${impact.toFixed(1)}%</strong><br>
+                🎯 الاتجاه المتوقع: <strong style="color:${color};">${direction}</strong>
+            `;
+        }
+        
+        // عند الضغط على Enter
+        document.getElementById('manualNews').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                analyzeManualNews();
+            }
+        });
+    </script>
 
 </body>
 </html>

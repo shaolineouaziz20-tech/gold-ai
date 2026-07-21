@@ -36,25 +36,35 @@ def index():
 # ====== NEWS PAGE ======
 @app.route('/news')
 def news_page():
+    from services.gold_price import get_gold_price
+    from services.forex_factory import get_news
+    
+    # جلب سعر الذهب
+    gold_data = get_gold_price()
+    current_price = gold_data.get('price', 'N/A')
+    price_change = gold_data.get('change', 'N/A')
+    
+    # جلب الأخبار
     news_data = get_news()
     
-    # تحديد Daily Bias بناء على الأخبار (مثال)
-    daily_bias = "Bullish"
-    bias_reason = "Positive economic data supporting gold prices"
+    # تحليل الجلسة
+    session_bias = "NEUTRAL"
+    confidence = 0
+    bias_reason = "في انتظار تحليل البيانات..."
     
-    # تحليل تأثير كل خبر على الذهب
-    for news in news_data:
-        if news.get('impact', '').lower() == 'high':
-            news['analysis'] = "High impact - Expect significant volatility in gold prices"
-        elif news.get('impact', '').lower() == 'medium':
-            news['analysis'] = "Medium impact - Possible short-term price movement"
-        else:
-            news['analysis'] = "Low impact - Minimal effect on gold prices"
+    # DOL
+    dol_target = "في انتظار التحليل..."
+    dol_reason = "سيتم تحديده بناء على الأخبار"
     
     return render_template('news.html',
+        current_price=current_price,
+        price_change=price_change,
         news_data=news_data,
-        daily_bias=daily_bias,
+        session_bias=session_bias,
+        confidence=confidence,
         bias_reason=bias_reason,
+        dol_target=dol_target,
+        dol_reason=dol_reason,
         now=datetime.now()
     )
 
@@ -82,7 +92,11 @@ def ai_analyze():
             from services.ai_engine import analyze_chart_with_gemini
             result = analyze_chart_with_gemini(filepath)
             os.remove(filepath)
-            return jsonify({'success': True, 'analysis': result})
+            
+            # تنظيف النص قبل الإرسال
+            clean_result = result.encode('utf-8', 'ignore').decode('utf-8')
+            return jsonify({'success': True, 'analysis': clean_result})
+            
         except Exception as e:
             if os.path.exists(filepath):
                 os.remove(filepath)
